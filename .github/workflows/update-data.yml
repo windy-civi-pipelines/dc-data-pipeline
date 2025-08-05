@@ -6,7 +6,7 @@ on:
   #   - cron: "0 1 * * *" # every day at 1am UTC
 
 env:
-  STATE: id # <-- update this value per state repo, e.g. il, tx, ny, etc.
+  STATE: dc # <-- update this value per state repo, e.g. il, tx, ny, etc.
 
 jobs:
   update-data:
@@ -46,6 +46,7 @@ jobs:
           docker pull openstates/scrapers:28675b011eef5bb35a758d05d1b7313d515c28ea
           mkdir -p ${RUNNER_TEMP}/_working
           docker run \
+              -e DC_API_KEY=${{ secrets.DC_API_KEY }} \
               -v "${RUNNER_TEMP}/_working/_data":/opt/openstates/openstates/_data \
               -v "${RUNNER_TEMP}/_working/_cache":/opt/openstates/openstates/_cache \
               openstates/scrapers:28675b011eef5bb35a758d05d1b7313d515c28ea \
